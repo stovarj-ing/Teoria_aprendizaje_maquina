@@ -1,4 +1,4 @@
-# Teoría del Aprendizaje de Máquina
+# Teoría Aprendizaje de Máquina
 
 Implementaciones, talleres y parciales del curso **Teoría del Aprendizaje de Máquina** (TAM), Universidad Nacional de Colombia, semestre 2026-2.
 
