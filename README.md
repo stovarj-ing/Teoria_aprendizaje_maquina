@@ -1,6 +1,6 @@
 # Teoría Aprendizaje de Máquina
 
-Implementaciones, talleres, parciales y proyecto final del curso **Teoría del Aprendizaje de Máquina** (TAM), Universidad Nacional de Colombia, semestre 2026-2.
+Implementaciones, talleres, parciales y proyecto final del curso **Teoría del Aprendizaje de Máquina** (TAM), Universidad Nacional de Colombia, Sede Manizales, semestre 2026-2.
 
 Los notebooks de práctica son autocontenidos: cargan o generan sus propios datos y pueden ejecutarse de principio a fin. Los notebooks del proyecto final se entregan ejecutados; sus datos crudos no se publican en este repositorio.
 
@@ -26,7 +26,7 @@ Los notebooks de práctica son autocontenidos: cargan o generan sus propios dato
 
 **[PeakGuard](Proyecto/README.md)** responde cuál es la probabilidad de que la potencia activa supere 12 kW en los próximos 15 minutos, usando mediciones de los medidores 200 y 201 de una subestación universitaria. El trabajo cubre auditoría de datos, regresión logística calibrada, validación `rolling-origin` y evaluación operativa retrospectiva (alertas, lead time y costos).
 
-| Libreta | Contenido |
+| Notebook | Contenido |
 |---|---|
 | [01_data_audit.ipynb](Proyecto/01_data_audit.ipynb) | Construcción de la serie de 1 min, auditoría de huecos y validación física |
 | [02_peak_model.ipynb](Proyecto/02_peak_model.ipynb) | Definición del target, ajuste de la ecuación, validación temporal, calibración y generalización |
@@ -34,7 +34,7 @@ Los notebooks de práctica son autocontenidos: cargan o generan sus propios dato
 
 También se incluye el proyecto de **pronóstico de potencia activa a 24 h** en [`potencia_activa/`](Proyecto/potencia_activa/README.md).
 
-Los ZIP con las mediciones originales no se publican. Las libretas conservan sus salidas y los datos procesados, tablas, figuras y modelos sí están disponibles. Para regenerar la auditoría se necesitan `analizador 200.zip` y `analizador 201.zip` dentro de `Proyecto/`.
+Los ZIP con las mediciones originales no se publican. Los notebooks conservan sus salidas y los datos procesados, tablas, figuras y modelos sí están disponibles. Para regenerar la auditoría se necesitan `analizador 200.zip` y `analizador 201.zip` dentro de `Proyecto/`.
 
 ## Temas cubiertos
 
@@ -53,7 +53,7 @@ Los ZIP con las mediciones originales no se publican. Las libretas conservan sus
 2. Usa **Open in Colab** o descárgalo y súbelo a [colab.research.google.com](https://colab.research.google.com/).
 3. Ejecuta con **Runtime → Run all**.
 
-Todos los notebooks funcionan en Colab. El único que importa `google.colab` es `ActividadTAM_con_interfaz`, como alternativa al cargue de archivos con Gradio.
+Todos los notebooks funcionan en Colab. El único que importa `google.colab` es `ActividadTAM_con_interfaz`, como alternativa a la carga de archivos con Gradio.
 
 ### En local
 
@@ -68,7 +68,7 @@ jupyter notebook
 
 No es necesario descargar datasets: MNIST y Fashion-MNIST se obtienen automáticamente mediante `tensorflow.keras.datasets` y `torchvision`, y `make_moons` se genera con `scikit-learn`.
 
-Para el proyecto final, instale las dependencias de `Proyecto/requirements.txt` y siga las instrucciones de [su README](Proyecto/README.md). Recuerde que los ZIP originales no están incluidos.
+Para el proyecto final, instala las dependencias de `Proyecto/requirements.txt` y sigue las instrucciones de [su README](Proyecto/README.md). Recuerda que los ZIP originales no están incluidos.
 
 ## Estructura del repositorio
 
@@ -103,6 +103,6 @@ Para el proyecto final, instale las dependencias de `Proyecto/requirements.txt` 
 
 ## Autor
 
-**Sebastian Tovar** — [@stovarj-ing](https://github.com/stovarj-ing)
+**Sebastián Tovar** — [@stovarj-ing](https://github.com/stovarj-ing)
 
 Curso Teoría del Aprendizaje de Máquina, Universidad Nacional de Colombia, 2026-2.

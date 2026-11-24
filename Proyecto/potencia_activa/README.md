@@ -12,7 +12,7 @@
 
 1. **Serie horaria.** Se agrega la potencia de 1 min a 1 h en hora local. Una hora con menos de 30 min de datos queda como faltante; no se imputa.
 2. **Perfil y autocorrelación.** Se revisa el perfil horario por tipo de día y la ACF hasta 72 h.
-3. **Dataset multi-paso.** Para cada origen $t_0$ y horizonte $h=1,\dots,24$ se arma una fila con features del origen, features del objetivo y estacionalidad conocida.
+3. **Dataset multipaso.** Para cada origen $t_0$ y horizonte $h=1,\dots,24$ se arma una fila con features del origen, features del objetivo y estacionalidad conocida.
 4. **Modelos.** Persistencia, seasonal naive, climatología por hora/tipo de día, Ridge, Ridge con hora one-hot, GBM y un híbrido.
 5. **Validación.** Rolling-origin por bloques de días: 5 folds; el modelo nunca ve el futuro del bloque de test.
 6. **Modelo final.** Híbrido con residuo GBM regularizado; se guarda con la climatología para pronosticar días nuevos.
@@ -210,9 +210,9 @@ El **primer lunes completo (10-19)** no se predice bien: el entrenamiento previo
 
 | Archivo | Qué es |
 |---|---|
-| `01_forecast_potencia.ipynb` | Libreta ejecutada con todo el pipeline, funcionalidad y generalización |
+| `01_forecast_potencia.ipynb` | Notebook ejecutado con todo el pipeline, funcionalidad y generalización |
 | `FORMULACION_MATEMATICA.md` | Formulación matemática completa, derivaciones y análisis |
-| `build_notebook.py` | Genera y ejecuta la libreta |
+| `build_notebook.py` | Genera y ejecuta el notebook |
 | `forecast.py` | Función `forecast_day` y `summary_forecast` |
 | `analysis/fold5_analysis.py` | R² por fold y descomposición del fold 5 |
 | `data/processed/potencia_horaria.csv` | Serie horaria |
@@ -241,4 +241,4 @@ python analysis\fold5_analysis.py
 python analysis\daily_energy_error.py
 ```
 
-O abrir `01_forecast_potencia.ipynb` en Jupyter. La libreta ya está ejecutada con salidas.
+O abrir `01_forecast_potencia.ipynb` en Jupyter. El notebook ya está ejecutado con salidas.

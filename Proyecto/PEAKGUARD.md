@@ -2,7 +2,7 @@
 
 **Sistema de alerta temprana y explicación de picos de demanda para edificios**
 
-Proyecto final — Teoría de Aprendizaje de Máquina  
+Proyecto final — Teoría del Aprendizaje de Máquina  
 Universidad Nacional de Colombia — Sede Manizales  
 Departamento de Ingeniería Eléctrica, Electrónica y Computación  
 Autor: Sebastián Tovar  

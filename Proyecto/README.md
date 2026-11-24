@@ -1,13 +1,13 @@
 # PeakGuard — Modelo de riesgo de pico
 
-Proyecto final de **Teoría de Aprendizaje de Máquina**  
+Proyecto final de **Teoría del Aprendizaje de Máquina**  
 Universidad Nacional de Colombia — Sede Manizales  
 Autor: Sebastián Tovar  
 Datos: subestación del bloque universitario, medidores 200 (red normal) y 201 (red regulada)
 
 ---
 
-## Qué hay acá
+## Qué hay aquí
 
 | Archivo | Qué es |
 |---|---|
@@ -15,17 +15,17 @@ Datos: subestación del bloque universitario, medidores 200 (red normal) y 201 (
 | `02_peak_model.ipynb` | Define el target, ajusta la ecuación, valida con rolling-origin, calibra y prueba generalización |
 | `03_evaluation.ipynb` | Evaluación operativa retrospectiva: episodios de pico, alertas, lead time, costo y análisis de errores |
 | `data/processed/medidor200_1min.csv` | Serie de 1 min del medidor 200 (salida de 01) |
-| `reports/figures/` | Figuras de las tres libretas |
+| `reports/figures/` | Figuras de los tres notebooks |
 | `reports/tables/` | Inventario, cobertura, huecos, resultados, coeficientes, umbrales, eventos y costos |
 | `models/peak_logit.joblib` | Modelo final + calibrador + lista de features |
-| `build_notebooks.py` | Genera y ejecuta las libretas 01 y 02 |
-| `build_evaluation.py` | Genera y ejecuta la libreta 03 |
+| `build_notebooks.py` | Genera y ejecuta los notebooks 01 y 02 |
+| `build_evaluation.py` | Genera y ejecuta el notebook 03 |
 
-**Datos crudos:** los ZIP del analizador no se publican en este repositorio. Las libretas se entregan ejecutadas y los datos procesados y resultados sí están incluidos. Para regenerar `01_data_audit.ipynb`, coloque `analizador 200.zip` y `analizador 201.zip` en la raíz de esta carpeta.
+**Datos crudos:** los ZIP del analizador no se publican en este repositorio. Los notebooks se entregan ejecutados y los datos procesados y resultados sí están incluidos. Para regenerar `01_data_audit.ipynb`, coloca `analizador 200.zip` y `analizador 201.zip` en la raíz de esta carpeta.
 
 **Proyecto de pronóstico de potencia activa (24 h):** [`potencia_activa/`](potencia_activa/).
 
-Las libretas ya están **ejecutadas con salidas**. Si quiere regenerarlas:
+Los notebooks ya están **ejecutados con salidas**. Si quieres regenerarlas:
 
 ```powershell
 python -m pip install -r requirements.txt
@@ -158,7 +158,7 @@ El train **baja** y el test **sube** al agregar datos: el modelo deja de ajustar
 
 ## Evaluación operativa retrospectiva (03)
 
-La libreta `03_evaluation.ipynb` reemplaza el piloto que no se puede hacer: simula el modelo desplegado sobre predicciones **out-of-fold** y evalúa el sistema a nivel de **episodio de pico**, no de minuto. El umbral se barre sobre el score crudo OOF; la calibración de probabilidades está en la libreta 02.
+El notebook `03_evaluation.ipynb` reemplaza el piloto que no se puede hacer: simula el modelo desplegado sobre predicciones **out-of-fold** y evalúa el sistema a nivel de **episodio de pico**, no de minuto. El umbral se barre sobre el score crudo OOF; la calibración de probabilidades está en el notebook 02.
 
 **Procedimientos matemáticos:**
 
@@ -202,7 +202,7 @@ Se probaron cuatro sets de features: **crudo**, **media móvil 15** (MA15), **EM
 - **No filtres el target.** Un target suavizado puede dar MAE artificialmente bajo (0,11 contra el target suavizado) porque el filtro causal usa muestras pasadas dentro del target; contra el target crudo el resultado ya no es comparable.
 - **Cuidado con el filtro centrado:** usa $P_{t+m}$; si se aplica antes de partir train/test, hay fuga de futuro. La versión causal se obtiene desplazando la salida media ventana.
 
-**Conclusión:** si el objetivo es la media, probá EMA15 como feature; si el objetivo es el pico, quedate con el crudo y con `P_max15`. La confiabilidad no viene del filtro: viene de la cobertura, la validación temporal y la calibración.
+**Conclusión:** si el objetivo es la media, prueba EMA15 como feature; si el objetivo es el pico, quédate con el crudo y con `P_max15`. La confiabilidad no viene del filtro: viene de la cobertura, la validación temporal y la calibración.
 
 El experimento está en `analysis/filter_experiment.py`; los resultados en `analysis/filter_experiment_reg.csv`, `filter_experiment_clf.csv` y `filter_experiment_trap.csv`.
 

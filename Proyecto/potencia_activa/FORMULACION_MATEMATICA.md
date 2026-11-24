@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Curso** | Teoría de Aprendizaje de Máquina — VIII semestre |
+| **Curso** | Teoría del Aprendizaje de Máquina — VIII semestre |
 | **Datos** | PM5300, medidor 200 (red normal), agregados de 1 min a 1 h |
 | **Periodo** | 6 de octubre a 21 de noviembre de 2026 |
 | **Documento** | Planteamiento formal, derivación de los modelos, protocolo de validación y lectura de resultados |
@@ -139,7 +139,7 @@ Perfil medio (media de $P_t$ por hora y tipo de día):
 
 El perfil laboral tiene cuatro fases: base nocturna ($5{,}4$ kW), rampa de entrada ($7$–$9$ kW entre 07:00 y 09:00), meseta diurna ($8$–$9{,}5$ kW) y descenso desde las 17:00. El fin de semana es casi plano: la ocupación no existe y solo queda la base. La diferencia entre ambos perfiles es la **carga de ocupación**, que es exactamente la variable que un calendario de festivos y de actividad académica podría explicar.
 
-> **Conexión con el código.** El perfil exploratorio de la libreta usa la **mediana** por hora y tipo de día. El modelo de climatología usa la **media** por celda. No son lo mismo: la media es el estimador adecuado para pérdida cuadrática y para energía; la mediana es más robusta para visualizar. La diferencia típica es de $\pm0{,}2$ kW.
+> **Conexión con el código.** El perfil exploratorio del notebook usa la **mediana** por hora y tipo de día. El modelo de climatología usa la **media** por celda. No son lo mismo: la media es el estimador adecuado para pérdida cuadrática y para energía; la mediana es más robusta para visualizar. La diferencia típica es de $\pm0{,}2$ kW.
 
 ### 2.5 Autocorrelación
 
@@ -1127,7 +1127,7 @@ Se quita un grupo de features y se reentrena el híbrido en el fold 5:
 **Lectura honesta.** La ablación es **mixta**: quitar `prev_day` o el calendario mejora levemente; quitar `prev_day` y `prev_week` empeora. ¿Por qué?
 
 1. **Redundancia.** `prev_day`, `lag24`, `roll24` y `P_origin` contienen información muy parecida. Quitar una no elimina la información; las otras la compensan.
-2. **El calendario ya está en la climatología.** El GBM del residuo no necesita re-aprender la hora; la climatología ya la captura. Quitar el calendario del GBM casi no cambia nada.
+2. **El calendario ya está en la climatología.** El GBM del residuo no necesita reaprender la hora; la climatología ya la captura. Quitar el calendario del GBM casi no cambia nada.
 3. **Un solo fold.** La ablación se hace en el fold 5, el del festivo. El ruido de un día domina las diferencias de $0{,}005$–$0{,}010$ kW.
 4. **Features correlacionadas.** La importancia por permutación también muestra valores pequeños y algunos negativos: en un modelo con features redundantes, barajar una sola no mide su importancia causal.
 
@@ -1607,7 +1607,7 @@ La extensión más importante no es matemática: es tener 3–6 meses de serie c
 
 ```powershell
 cd repo\Proyecto\potencia_activa
-python build_notebook.py          # regenera y ejecuta la libreta
+python build_notebook.py          # regenera y ejecuta el notebook
 python forecast.py                # demo de forecast_day
 python analysis\generalization_checks.py
 python analysis\fold5_analysis.py
