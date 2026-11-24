@@ -1,0 +1,42 @@
+﻿Filas 35389 positivos 948 tasa 0.0268
+fold 1 ok
+fold 2 ok
+fold 3 ok
+fold 4 ok
+fold 5 ok
+           PR           Brier        
+model     gam   logit     gam   logit
+fold                                 
+1      0.5561  0.5969  0.0153  0.0137
+2      0.4926  0.5213  0.0486  0.0469
+3      0.1283  0.1082  0.0215  0.0218
+4      0.4455  0.4642  0.0140  0.0141
+5      0.6890  0.3707  0.0117  0.0145
+
+Medianas:
+           PR   Brier
+model                
+gam    0.4926  0.0153
+logit  0.4642  0.0145
+
+Logit estandarizado (coeficientes):
+PF            1.464
+P_max15       1.256
+is_weekend   -0.906
+hour_cos     -0.811
+P            -0.633
+hour_sin      0.606
+P_mean15      0.581
+V            -0.505
+Q_over_P      0.032
+intercepto: -9.273
+
+Logit limpio (sin P ni Q/P):
+P_max15       1.243
+is_weekend   -0.912
+hour_cos     -0.859
+P_mean15      0.609
+hour_sin      0.606
+V            -0.555
+PF            0.524
+intercepto: -8.942

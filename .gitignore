@@ -5,3 +5,11 @@ Thumbs.db
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+
+# Raw measurement data (not published)
+*.zip

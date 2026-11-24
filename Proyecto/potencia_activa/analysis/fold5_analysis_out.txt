@@ -1,0 +1,24 @@
+﻿R┬▓ por fold
+ fold  R2_climatologia  R2_gbm  R2_hibrido  MAE_test_hibrido  RMSE_test_hibrido
+    1           0.8285 -0.4255      0.8339            0.3922             0.6629
+    2           0.9335  0.9358      0.9420            0.2736             0.4113
+    3           0.8750  0.9040      0.9362            0.2200             0.3388
+    4           0.7934  0.7963      0.8131            0.2593             0.4536
+    5           0.2979  0.0378      0.2335            0.6431             1.3394
+
+Fold 5 por d├¡a objetivo
+target_day   n  MAE_hibrido  MAE_climatologia  sesgo_hibrido
+2026-11-14 231       0.0981            0.0835         0.0730
+2026-11-15 576       0.1431            0.1266        -0.0268
+2026-11-16 576       1.7175            1.6129         1.7175
+2026-11-17 504       0.3151            0.4155        -0.2542
+2026-11-18 123       0.3210            0.3257         0.0076
+
+Fold 5 con y sin el festivo
+             conjunto    n  MAE_hibrido  MAE_climatologia  R2_hibrido  R2_climatologia
+      fold_5_completo 2010       0.6431            0.6322      0.2335           0.2979
+fold_5_sin_2026-11-16 1434       0.2116            0.2383      0.9613           0.9411
+
+Brecha completa: 0.4931
+Brecha sin 11-16: 0.0615
+Parte de la brecha atribuible a 11-16: 87.5%

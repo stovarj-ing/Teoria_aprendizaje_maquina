@@ -1,0 +1,27 @@
+﻿Holdout: MAE 0.1708 | RMSE 0.2454 | MAE persistencia 0.2204 | skill 0.5676
+
+Sesgo por valor real del m├íximo futuro:
+             n  Y_mean   Y_max    pred  pred_menos_Ymean  Ymax_menos_pred
+bin_max                                                                  
+(0, 8]    4834   5.543   5.944   5.592             0.050            0.352
+(8, 10]    328   8.096   9.149   8.305             0.209            0.844
+(10, 12]   666   9.517  10.780   9.454            -0.064            1.326
+(12, 14]   118  10.794  12.515  10.482            -0.313            2.033
+
+Cobertura de picos si se alerta con el pron├│stico de la media:
+  umbral  8: precision 0.121 | recall 1.000 | alertas 16.4% | TP 118 FP 857 FN 0
+  umbral  9: precision 0.165 | recall 1.000 | alertas 12.0% | TP 118 FP 596 FN 0
+  umbral 10: precision 0.440 | recall 0.780 | alertas 3.5% | TP 92 FP 117 FN 26
+  umbral 11: precision 0.842 | recall 0.136 | alertas 0.3% | TP 16 FP 3 FN 102
+  umbral 12: precision 0.000 | recall 0.000 | alertas 0.0% | TP 0 FP 0 FN 118
+
+Distribuci├│n del pron├│stico en filas con pico real:
+          pred   Y_mean    Y_max
+count  118.000  118.000  118.000
+mean    10.482   10.794   12.515
+std      0.522    0.503    0.446
+min      9.425    9.724   12.028
+25%     10.052   10.242   12.289
+50%     10.727   11.060   12.310
+75%     10.890   11.192   12.872
+max     11.232   11.521   13.439

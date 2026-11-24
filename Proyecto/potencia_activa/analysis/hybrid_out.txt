@@ -1,0 +1,14 @@
+﻿modelo  climatologia    gbm  hibrido
+fold                                
+1              0.404  1.045    0.396
+2              0.298  0.272    0.271
+3              0.280  0.258    0.241
+4              0.284  0.307    0.253
+5              0.632  0.825    0.628
+
+Medianas:
+                MAE   RMSE
+modelo                    
+climatologia  0.298  0.477
+gbm           0.307  0.474
+hibrido       0.271  0.432

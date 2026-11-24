@@ -1,0 +1,15 @@
+﻿Train: n=29429 positivos=830 tasa=0.0282
+Test : n=5946 positivos=118 tasa=0.0198
+PR-AUC train: 0.4745 | test: 0.3935 | brecha: 0.0810
+Brier train: 0.0195 | test: 0.0142
+
+--- Etiquetas barajadas (5 repeticiones) ---
+PR-AUC con etiquetas barajadas: media=0.0215  rango=[0.0101, 0.0627]
+
+--- Curva de aprendizaje (entrenando con m├ís d├¡as) ---
+ dias_train  n_train  PR_train  PR_test  Brier_test
+          6     5825    0.4736   0.5277      0.0168
+         11    10682    0.5978   0.2177      0.0212
+         16    17850    0.5401   0.2299      0.0186
+         21    22506    0.5028   0.2826      0.0166
+         26    27989    0.4746   0.3856      0.0144

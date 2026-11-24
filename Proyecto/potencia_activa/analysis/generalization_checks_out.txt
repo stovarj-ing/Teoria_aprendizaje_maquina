@@ -1,0 +1,25 @@
+﻿MAE train 0.1500 | MAE test 0.6431 | brecha 0.4931
+RMSE test 1.3394 | MAE media 1.2710
+
+Etiquetas barajadas (5 repeticiones):
+MAE test media 1.2737 | rango [1.2588, 1.2861] | MAE media 1.2710
+
+Curva de aprendizaje:
+ dias_train  filas_train  MAE_train  MAE_test
+          5         1029      0.020     0.784
+         10         2367      0.045     0.718
+         15         5247      0.110     0.631
+         20         7005      0.129     0.635
+         25         8217      0.150     0.643
+
+Ablaci├│n (MAE test):
+  completo                 MAE 0.6431
+  sin prev_day             MAE 0.6383
+  sin prev_day/prev_week   MAE 0.6521
+  sin lags                 MAE 0.6439
+  sin calendario           MAE 0.6347
+
+Modelos de residuo (├║ltimo fold):
+  ridge              train 0.2411 | test 0.6864 | brecha 0.4454
+  gbm_regularizado   train 0.1500 | test 0.6431 | brecha 0.4931
+  gbm_actual         train 0.0634 | test 0.6278 | brecha 0.5644

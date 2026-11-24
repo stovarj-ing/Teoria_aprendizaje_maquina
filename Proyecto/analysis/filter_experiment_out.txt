@@ -1,0 +1,24 @@
+﻿=== Regresi├│n: media de los pr├│ximos 15 min (mediana de 5 folds) ===
+             MAE    RMSE  MAE_pers   skill
+features                                  
+EMA15     0.1956  0.2812    0.2509  0.6280
+MA15      0.2034  0.2891    0.2879  0.6174
+SG15      0.2082  0.2972    0.2516  0.5958
+crudo     0.1973  0.2814    0.2504  0.6236
+
+=== Trampa: entrenar con target suavizado ===
+fold                           3.0000
+MAE_contra_target_suavizado    0.1097
+MAE_contra_target_crudo        0.1745
+(comparar MAE_contra_target_crudo con el MAE de 'crudo' arriba)
+
+=== Clasificaci├│n: pico >12 kW en los pr├│ximos 15 min (mediana de 5 folds) ===
+              PR   Brier
+features                
+EMA15     0.4433  0.0139
+MA15      0.4255  0.0142
+SG15      0.4215  0.0141
+crudo     0.4464  0.0141
+tasa base mediana: 0.0197
+
+OK

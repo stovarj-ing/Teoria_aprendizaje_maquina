@@ -1,0 +1,5 @@
+prueba,valor
+brecha_train_test,0.4930863261204811
+shuffle_MAE_media,1.2737229604253557
+baseline_media_MAE,1.2709824969313117
+learning_curve_test_final,0.6431244539477634

@@ -1,0 +1,6 @@
+ablacion,MAE_test
+completo,0.6431244539477634
+sin prev_day,0.6383394482897853
+sin prev_day/prev_week,0.6521409043873586
+sin lags,0.6438664759806956
+sin calendario,0.6346607985403934
