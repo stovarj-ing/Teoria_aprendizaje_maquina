@@ -1,8 +1,8 @@
 # Teoría Aprendizaje de Máquina
 
-Implementaciones, talleres y parciales del curso **Teoría del Aprendizaje de Máquina** (TAM), Universidad Nacional de Colombia, semestre 2026-2.
+Implementaciones, talleres, parciales y proyecto final del curso **Teoría del Aprendizaje de Máquina** (TAM), Universidad Nacional de Colombia, semestre 2026-2.
 
-Cada notebook es autocontenido: carga o genera sus propios datos y puede ejecutarse de principio a fin.
+Los notebooks de práctica son autocontenidos: cargan o generan sus propios datos y pueden ejecutarse de principio a fin. Los notebooks del proyecto final se entregan ejecutados; sus datos crudos no se publican en este repositorio.
 
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?logo=tensorflow&logoColor=white)
@@ -21,6 +21,20 @@ Cada notebook es autocontenido: carga o genera sus propios datos y puede ejecuta
 | `Talleres/` | [Taller_2_TAM.ipynb](Talleres/Taller_2_TAM.ipynb) | Señal senoidal con ruido gaussiano (AWGN), matriz de diseño polinomial y reconstrucción con LS, RLS, ML y MAP | — |
 | `Talleres/` | [Taller_TAM_Alternativo.ipynb](Talleres/Taller_TAM_Alternativo.ipynb) | Solución computacional del Taller 1: clasificación lineal y perceptrón, k-NN con k = 1, 5, 15, matriz de confusión y métricas de evaluación | [Taller_TAM_Alternativo.pdf](Talleres/Taller_TAM_Alternativo.pdf) |
 | `Talleres/` | [TAM_clase.ipynb](Talleres/TAM_clase.ipynb) | Demostración de clase: generación de una señal, adición de ruido y reconstrucción | — |
+
+## Proyecto final
+
+**[PeakGuard](Proyecto/README.md)** responde cuál es la probabilidad de que la potencia activa supere 12 kW en los próximos 15 minutos, usando mediciones de los medidores 200 y 201 de una subestación universitaria. El trabajo cubre auditoría de datos, regresión logística calibrada, validación `rolling-origin` y evaluación operativa retrospectiva (alertas, lead time y costos).
+
+| Libreta | Contenido |
+|---|---|
+| [01_data_audit.ipynb](Proyecto/01_data_audit.ipynb) | Construcción de la serie de 1 min, auditoría de huecos y validación física |
+| [02_peak_model.ipynb](Proyecto/02_peak_model.ipynb) | Definición del target, ajuste de la ecuación, validación temporal, calibración y generalización |
+| [03_evaluation.ipynb](Proyecto/03_evaluation.ipynb) | Evaluación de episodios de pico, alertas, lead time, costos y análisis de errores |
+
+También se incluye el proyecto de **pronóstico de potencia activa a 24 h** en [`potencia_activa/`](Proyecto/potencia_activa/README.md).
+
+Los ZIP con las mediciones originales no se publican. Las libretas conservan sus salidas y los datos procesados, tablas, figuras y modelos sí están disponibles. Para regenerar la auditoría se necesitan `analizador 200.zip` y `analizador 201.zip` dentro de `Proyecto/`.
 
 ## Temas cubiertos
 
@@ -54,6 +68,8 @@ jupyter notebook
 
 No es necesario descargar datasets: MNIST y Fashion-MNIST se obtienen automáticamente mediante `tensorflow.keras.datasets` y `torchvision`, y `make_moons` se genera con `scikit-learn`.
 
+Para el proyecto final, instale las dependencias de `Proyecto/requirements.txt` y siga las instrucciones de [su README](Proyecto/README.md). Recuerde que los ZIP originales no están incluidos.
+
 ## Estructura del repositorio
 
 ```
@@ -64,6 +80,13 @@ No es necesario descargar datasets: MNIST y Fashion-MNIST se obtienen automátic
 ├── Parciales/
 │   ├── Parcial_TAM_1.ipynb
 │   └── Parcial_TAM_1.pdf
+├── Proyecto/
+│   ├── 01_data_audit.ipynb
+│   ├── 02_peak_model.ipynb
+│   ├── 03_evaluation.ipynb
+│   ├── analysis/, data/processed/, models/, reports/
+│   ├── PEAKGUARD.md, README.md, requirements.txt
+│   └── potencia_activa/
 └── Talleres/
     ├── TAM_clase.ipynb
     ├── Taller1.ipynb
