@@ -35,7 +35,7 @@ El orden es deliberado:
 | $t$ | Índice horario local |
 | $P_t$ | Potencia activa media de la hora $t$, en kW |
 | $t_0$ | Origen del pronóstico |
-| $h$ | Horizonte, $h \in \{1,\dots,24\}$ |
+| $h$ | Horizonte, $h \in \lbrace1,\dots,24\rbrace$ |
 | $H$ | Ventana de pronóstico, $H=24$ |
 | $y$ | Valor objetivo, $y=P_{t_0+h}$ |
 | $\hat y$ | Pronóstico de $y$ |
@@ -44,7 +44,7 @@ El orden es deliberado:
 | $\theta$ | Parámetros del modelo |
 | $\mathcal{D}_{\text{tr}}$ | Conjunto de entrenamiento |
 | $\mathcal{D}_{\text{te}}$ | Conjunto de prueba |
-| $w(t)$ | Indicador de fin de semana: $w(t)=\mathbf{1}\{\text{dow}(t)\ge 5\}$ |
+| $w(t)$ | Indicador de fin de semana: $w(t)=\mathbf{1}\lbrace\text{dow}(t)\ge 5\rbrace$ |
 | $\text{dow}(t)$ | Día de la semana, $0=$ lunes, $6=$ domingo |
 | $M_t$ | Minutos con dato dentro de la hora $t$ |
 | $n_t$ | $\lvert M_t\rvert$, número de minutos válidos en la hora $t$ |
@@ -70,10 +70,10 @@ El orden es deliberado:
 El punto de partida es la serie de potencia activa del medidor 200:
 
 $$
-\{p_m\}_{m=1}^{N}, \qquad p_m \in \mathbb{R}^{+}\ \text{(kW)}.
+\lbrace{}p_m\rbrace_{m=1}^{N}, \qquad p_m \in \mathbb{R}^{+}\ \text{(kW)}.
 $$
 
-La serie tiene $N=66.767$ minutos, desde el 6 de octubre de 2026 a las 15:13 hasta el 21 de noviembre de 2026 a las 23:59 (hora local). El $45{,}3\,\%$ de los minutos no tiene dato de potencia ($30.268$ valores faltantes). Los faltantes no son aleatorios: corresponden a caídas del medidor, ventanas de mantenimiento y periodos sin comunicación.
+La serie tiene $N=66.767$ minutos, desde el 6 de octubre de 2026 a las 15:13 hasta el 21 de noviembre de 2026 a las 23:59 (hora local). El $45{,}3$ % de los minutos no tiene dato de potencia ($30.268$ valores faltantes). Los faltantes no son aleatorios: corresponden a caídas del medidor, ventanas de mantenimiento y periodos sin comunicación.
 
 **Por qué no se imputa.** Imputar la potencia con interpolación crearía una serie artificialmente suave, reduciría la varianza del target y contaminaría la evaluación: el modelo aprendería una señal que no existe. Además, una interpolación que use el futuro introduciría fuga temporal. Por eso los faltantes se conservan como `NaN` y las filas que los necesitan se descartan.
 
@@ -82,7 +82,7 @@ La serie tiene $N=66.767$ minutos, desde el 6 de octubre de 2026 a las 15:13 has
 Para cada hora $t$ se define el conjunto de minutos válidos:
 
 $$
-M_t=\{m:\ m\in[t,t+1\text{ h}),\ p_m\ \text{observado}\}, \qquad n_t=|M_t|.
+M_t=\lbrace{}m:\ m\in[t,t+1\text{ h}),\ p_m\ \text{observado}\rbrace, \qquad n_t=|M_t|.
 $$
 
 La potencia horaria es la media de los minutos válidos:
@@ -100,7 +100,7 @@ $$
 
 **Supuesto estadístico.** Cuando $n_t<60$, la media de los minutos observados estima la media de la hora completa bajo el supuesto de que los minutos faltantes tienen la misma media que los observados (missing at random dentro de la hora). Es un supuesto fuerte; se mitiga exigiendo $n_t\ge 30$. Si la hora tiene menos de 30 minutos, la estimación es demasiado ruidosa y se descarta.
 
-**Resultado.** La serie horaria tiene $1.113$ slots y $609$ horas válidas, es decir, el $54{,}7\,\%$. La cobertura horaria es la limitación dominante del proyecto.
+**Resultado.** La serie horaria tiene $1.113$ slots y $609$ horas válidas, es decir, el $54{,}7$ %. La cobertura horaria es la limitación dominante del proyecto.
 
 ### 2.3 Estadísticos de la serie horaria
 
@@ -115,8 +115,8 @@ $$
 | Coeficiente de variación | $0{,}241$ |
 | Asimetría | $1{,}315$ |
 | Exceso de curtosis | $0{,}273$ |
-| Horas con $P<6$ kW | $66{,}7\,\%$ |
-| Horas con $P<8$ kW | $79{,}1\,\%$ |
+| Horas con $P<6$ kW | $66{,}7$ % |
+| Horas con $P<8$ kW | $79{,}1$ % |
 
 La distribución es **bimodal en la práctica**: una base estable alrededor de $5{,}4$ kW y un régimen diurno de $8$–$10$ kW cuando el bloque está ocupado. Dos tercios de las horas están por debajo de $6$ kW; el consumo alto es la excepción, no la regla. Esto tiene una consecuencia directa: un modelo que acierte la base y falle la ocupación diurna puede tener un MAE bajo y, aun así, un error grande en la energía del día.
 
@@ -163,14 +163,14 @@ La persistencia de corto plazo es muy alta: la correlación con la hora anterior
 
 ### 3.1 Proceso estocástico e información
 
-Se modela la potencia como un proceso estocástico $\{P_t\}_{t\in\mathbb{Z}}$ en tiempo discreto horario. Sea $\mathcal{F}_{t_0}$ la información disponible en el origen:
+Se modela la potencia como un proceso estocástico $\lbrace{}P_t\rbrace_{t\in\mathbb{Z}}$ en tiempo discreto horario. Sea $\mathcal{F}_{t_0}$ la información disponible en el origen:
 
 $$
 \mathcal{F}_{t_0} =
 \sigma\left(
-\{P_s:\ s\le t_0\}
+\lbrace{}P_s:\ s\le t_0\rbrace
 \ \cup\
-\{\text{calendario}(s):\ s\le t_0+24\}
+\lbrace\text{calendario}(s):\ s\le t_0+24\rbrace
 \right).
 \qquad (3.1)
 $$
@@ -255,7 +255,7 @@ $$
 El conjunto de orígenes es
 
 $$
-\mathcal{T}_0=\{t_0:\ \text{(4.1) se cumple}\}.
+\mathcal{T}_0=\lbrace{}t_0:\ \text{(4.1) se cumple}\rbrace.
 \qquad (4.2)
 $$
 
@@ -299,14 +299,14 @@ $$
 | Objetivo | `prev_week` | $P_{t_0+h-168}$ | Sí, porque $h\le24<168$ |
 | Calendario | `target_hour` | hora local de $t_0+h$ | Sí (determinista) |
 | Calendario | `target_dow` | día de la semana de $t_0+h$ | Sí (determinista) |
-| Calendario | `target_weekend` | $\mathbf{1}\{\text{dow}\ge5\}$ | Sí (determinista) |
+| Calendario | `target_weekend` | $\mathbf{1}\lbrace\text{dow}\ge5\rbrace$ | Sí (determinista) |
 | Origen | `origin_hour` | hora local de $t_0$ | Sí |
 | Origen | `origin_dow` | día de la semana de $t_0$ | Sí |
 | Horizonte | `horizon` | $h$ | Sí |
-| Fourier | `hour_sin1`, `hour_cos1` | $\sin(2\pi\,\text{hora}/24)$, $\cos(\cdot)$ | Sí |
-| Fourier | `hour_sin2`, `hour_cos2` | $\sin(4\pi\,\text{hora}/24)$, $\cos(\cdot)$ | Sí |
-| Fourier | `hour_sin3`, `hour_cos3` | $\sin(6\pi\,\text{hora}/24)$, $\cos(\cdot)$ | Sí |
-| Fourier | `dow_sin`, `dow_cos` | $\sin(2\pi\,\text{dow}/7)$, $\cos(\cdot)$ | Sí |
+| Fourier | `hour_sin1`, `hour_cos1` | $\sin(2\pi\thinspace\text{hora}/24)$, $\cos(\cdot)$ | Sí |
+| Fourier | `hour_sin2`, `hour_cos2` | $\sin(4\pi\thinspace\text{hora}/24)$, $\cos(\cdot)$ | Sí |
+| Fourier | `hour_sin3`, `hour_cos3` | $\sin(6\pi\thinspace\text{hora}/24)$, $\cos(\cdot)$ | Sí |
+| Fourier | `dow_sin`, `dow_cos` | $\sin(2\pi\thinspace\text{dow}/7)$, $\cos(\cdot)$ | Sí |
 
 **Reglas de relleno.** Para que el dataset no pierda filas por features auxiliares:
 
@@ -320,7 +320,7 @@ Estos rellenos son conservadores: reemplazan un dato faltante por el valor actua
 
 ### 4.4 Prueba de no fuga temporal
 
-Para $h\in\{1,\dots,24\}$:
+Para $h\in\lbrace1,\dots,24\rbrace$:
 
 $$
 t_0+h-24\le t_0
@@ -344,7 +344,7 @@ Esta prueba es sobre las **features**, no sobre la partición. La partición tie
 | Máximo teórico ($573\times24$) | 13.752 |
 | Retención | 74,4 % |
 
-El máximo teórico no se alcanza porque faltan targets, falta `prev_day` o el origen está cerca del final. La retención del $74{,}4\,\%$ es razonable para una serie con $45{,}3\,\%$ de faltantes.
+El máximo teórico no se alcanza porque faltan targets, falta `prev_day` o el origen está cerca del final. La retención del $74{,}4$ % es razonable para una serie con $45{,}3$ % de faltantes.
 
 **El solapamiento es la propiedad estadística más importante del dataset.** Un mismo target $P_\tau$ puede aparecer en hasta 24 filas: todas las combinaciones $(t_0,h)$ con $t_0+h=\tau$ y $1\le h\le24$. Por lo tanto:
 
@@ -405,9 +405,9 @@ Es el baseline que se usa en la prueba de etiquetas barajadas: si el modelo no a
 Se discretiza el calendario en $24\times2=48$ celdas:
 
 $$
-(h,w)\in\{0,\dots,23\}\times\{0,1\},
+(h,w)\in\lbrace0,\dots,23\rbrace\times\lbrace0,1\rbrace,
 \qquad
-w=\mathbf{1}\{\text{dow}\ge5\}.
+w=\mathbf{1}\lbrace\text{dow}\ge5\rbrace.
 \qquad (5.4)
 $$
 
@@ -417,10 +417,10 @@ $$
 \hat c_{h,w} =
 \frac{
 \displaystyle\sum_{i=1}^{N}
-y_i\,\mathbf{1}\{h_i=h,\ w_i=w\}
+y_i\thinspace\mathbf{1}\lbrace{}h_i=h,\ w_i=w\rbrace
 }{
 \displaystyle\sum_{i=1}^{N}
-\mathbf{1}\{h_i=h,\ w_i=w\}
+\mathbf{1}\lbrace{}h_i=h,\ w_i=w\rbrace
 }.
 \qquad (5.5)
 $$
@@ -452,7 +452,7 @@ $$
 \frac{1}{\sigma^2}
 \sum_{i:\ h_i=h,\ w_i=w}
 \left(y_i-c_{h,w}\right)=0
-\;\Longrightarrow\;
+\thickspace\Longrightarrow\thickspace
 \hat c_{h,w}=\frac{1}{n_{h,w}}
 \sum_{i:\ h_i=h,\ w_i=w}y_i.
 \qquad (5.8)
@@ -572,12 +572,12 @@ $$
 
 $$
 \mathrm{MAE}_{\text{pooled}} =
-\frac{\sum_{k=1}^{5} n_k\,\mathrm{MAE}_k}
+\frac{\sum_{k=1}^{5} n_k\thinspace\mathrm{MAE}_k}
 {\sum_{k=1}^{5} n_k}.
 \qquad (6.8)
 $$
 
-Es la media ponderada por tamaño. En este proyecto el fold 5 tiene $2.010$ filas, el $21{,}9\,\%$ del total de test; la mediana le da el mismo peso que al fold 1, que tiene $1.338$. Ambas lecturas son válidas; la diferencia se muestra en la sección 9.
+Es la media ponderada por tamaño. En este proyecto el fold 5 tiene $2.010$ filas, el $21{,}9$ % del total de test; la mediana le da el mismo peso que al fold 1, que tiene $1.338$. Ambas lecturas son válidas; la diferencia se muestra en la sección 9.
 
 ### 6.7 Métrica y funcional
 
@@ -670,10 +670,10 @@ El objetivo es
 $$
 \hat\beta =
 \arg\min_{\beta}
-\left\{
+\left\lbrace
 \|y-X\beta\|_2^2 +
 \alpha\|\beta\|_2^2
-\right\},
+\right\rbrace,
 \qquad
 \alpha=1.
 \qquad (8.2)
@@ -684,7 +684,7 @@ Derivando respecto de $\beta$:
 $$
 \nabla_\beta =
 -2X^T(y-X\beta)+2\alpha\beta=0
-\;\Longrightarrow\;
+\thickspace\Longrightarrow\thickspace
 \left(X^TX+\alpha I\right)\hat\beta=X^Ty,
 \qquad (8.3)
 $$
@@ -709,8 +709,8 @@ $$
 X=
 \left[
 X_{\text{num}},
-\ \mathbf{1}\{\text{hora}=0\},\dots,\mathbf{1}\{\text{hora}=23\},
-\ \mathbf{1}\{\text{dow}=0\},\dots,\mathbf{1}\{\text{dow}=6\}
+\ \mathbf{1}\lbrace\text{hora}=0\rbrace,\dots,\mathbf{1}\lbrace\text{hora}=23\rbrace,
+\ \mathbf{1}\lbrace\text{dow}=0\rbrace,\dots,\mathbf{1}\lbrace\text{dow}=6\rbrace
 \right].
 \qquad (8.5)
 $$
@@ -751,10 +751,10 @@ Se ajusta un árbol a $r^{(m)}$. Para una hoja $R_{jm}$, el valor óptimo con pe
 $$
 \gamma_{jm} =
 \arg\min_{\gamma}
-\left\{
+\left\lbrace
 \sum_{i\in R_{jm}}\left(r_i^{(m)}-\gamma\right)^2 +
 \lambda\gamma^2
-\right\} =
+\right\rbrace =
 \frac{\sum_{i\in R_{jm}}r_i^{(m)}}{n_{jm}+\lambda}.
 \qquad (8.9)
 $$
@@ -762,7 +762,7 @@ $$
 La actualización es
 
 $$
-F_m(x)=F_{m-1}(x)+\nu\,\gamma_{jm},
+F_m(x)=F_{m-1}(x)+\nu\thinspace\gamma_{jm},
 \qquad
 x\in R_{jm}.
 \qquad (8.10)
@@ -799,7 +799,7 @@ $$
 \left(
 y-\hat c_{h,w}-g(x)
 \right)^2 +
-\lambda\,\Omega(g).
+\lambda\thinspace\Omega(g).
 \qquad (8.13)
 $$
 
@@ -874,7 +874,7 @@ Ese último caso es exactamente lo que ocurre el 16-11-2026 (sección 11.3).
 | `learning_rate` | 0,03 | Encogimiento por árbol |
 | `l2_regularization` | 10 | Encoge el valor de cada hoja |
 | `min_samples_leaf` | 30 | Evita hojas con pocas filas |
-| Capacidad máxima | $150\times8=1.200$ hojas | $\approx15\,\%$ del GBM directo |
+| Capacidad máxima | $150\times8=1.200$ hojas | $\approx15$ % del GBM directo |
 
 La regularización es deliberada: con 25 días, un modelo más flexible reduce el error de train pero agranda la brecha. La sección 10 muestra el intercambio.
 
@@ -910,7 +910,7 @@ con:
 | RMSE test | $1{,}3394$ kW |
 | R² test | $0{,}2335$ |
 
-**Lectura inmediata.** El modelo ajusta el train mucho mejor que el test. La brecha es $0{,}493$ kW, el $77\,\%$ del MAE de test. Esto es lo que hay que explicar, no esconder. La sección 10 lo descompone: $87{,}5\,\%$ de esa brecha se explica por un solo día, el 16-11.
+**Lectura inmediata.** El modelo ajusta el train mucho mejor que el test. La brecha es $0{,}493$ kW, el $77$ % del MAE de test. Esto es lo que hay que explicar, no esconder. La sección 10 lo descompone: $87{,}5$ % de esa brecha se explica por un solo día, el 16-11.
 
 ### 9.3 MAE por fold
 
@@ -963,7 +963,7 @@ En el fold 5 el híbrido tiene **peor** $R^2$ que la climatología ($0{,}2335$ v
 | **GBM regularizado (final)** | **0,150** | 0,643 | **0,493** |
 | Ridge | 0,241 | 0,686 | 0,445 |
 
-El GBM original tiene un MAE de test $0{,}015$ kW mejor ($2{,}4\,\%$), pero una brecha $0{,}071$ kW mayor ($14{,}5\,\%$ más grande que la del regularizado). Se eligió el regularizado porque el objetivo del proyecto incluye demostrar que el modelo no memoriza; la diferencia de test está dentro del ruido de un fold con un festivo. Es un intercambio explícito de bias por varianza, no un resultado gratis.
+El GBM original tiene un MAE de test $0{,}015$ kW mejor ($2{,}4$ %), pero una brecha $0{,}071$ kW mayor ($14{,}5$ % más grande que la del regularizado). Se eligió el regularizado porque el objetivo del proyecto incluye demostrar que el modelo no memoriza; la diferencia de test está dentro del ruido de un fold con un festivo. Es un intercambio explícito de bias por varianza, no un resultado gratis.
 
 ### 9.7 Significancia estadística: lo que no se puede afirmar
 
@@ -985,7 +985,7 @@ p\approx0{,}13.
 \qquad (9.2)
 $$
 
-Con 5 folds, la ventaja del híbrido **no es estadísticamente significativa** al $5\,\%$. Es consistente en 4 de 5 folds, pero el fold 5 y la variabilidad entre folds impiden afirmar que la diferencia no es azar. Un test a nivel de fila daría un $p$ minúsculo, pero sería inválido: las filas están solapadas y no son independientes. La conclusión honesta es: **el híbrido es la mejor opción descriptiva, con una ventaja pequeña y no significativa con esta muestra**.
+Con 5 folds, la ventaja del híbrido **no es estadísticamente significativa** al $5$ %. Es consistente en 4 de 5 folds, pero el fold 5 y la variabilidad entre folds impiden afirmar que la diferencia no es azar. Un test a nivel de fila daría un $p$ minúsculo, pero sería inválido: las filas están solapadas y no son independientes. La conclusión honesta es: **el híbrido es la mejor opción descriptiva, con una ventaja pequeña y no significativa con esta muestra**.
 
 ---
 
@@ -1020,11 +1020,11 @@ $$
 La parte de la brecha atribuible al 16-11 es
 
 $$
-\frac{0{,}4931-0{,}0615}{0{,}4931}=87{,}5\,\%.
+\frac{0{,}4931-0{,}0615}{0{,}4931}=0{,}875.
 \qquad (10.4)
 $$
 
-**Conclusión.** El $87{,}5\,\%$ de la brecha no es memorización: es un día con un régimen distinto. En el régimen normal, la brecha es $0{,}062$ kW, el $29\,\%$ del MAE test sin festivo. Sigue siendo una brecha, pero es la brecha esperable de un modelo con filas solapadas, no la de un memorizador.
+**Conclusión.** El $87{,}5$ % de la brecha no es memorización: es un día con un régimen distinto. En el régimen normal, la brecha es $0{,}062$ kW, el $29$ % del MAE test sin festivo. Sigue siendo una brecha, pero es la brecha esperable de un modelo con filas solapadas, no la de un memorizador.
 
 ### 10.2 Prueba de etiquetas barajadas
 
@@ -1046,7 +1046,7 @@ $$
 | Rango | $[1{,}2588,\ 1{,}2861]$ |
 | MAE de la media global | $1{,}2710$ |
 
-El modelo barajado queda **prácticamente al nivel de la media** (1,2737 vs 1,2710, una diferencia del $0{,}2\,\%$). No hay señal residual: si el pipeline tuviera una fuga o memorizara la identidad de las filas, el test barajado seguiría siendo mejor que la media. No lo es.
+El modelo barajado queda **prácticamente al nivel de la media** (1,2737 vs 1,2710, una diferencia del $0{,}2$ %). No hay señal residual: si el pipeline tuviera una fuga o memorizara la identidad de las filas, el test barajado seguiría siendo mejor que la media. No lo es.
 
 **Qué prueba y qué no.** Prueba que el pipeline no extrae señal del ruido y que no hay una fuga obvia. **No** prueba que el modelo no esté sobreajustado en el régimen normal; para eso están la brecha y la curva de aprendizaje.
 
@@ -1136,7 +1136,7 @@ Se quita un grupo de features y se reentrena el híbrido en el fold 5:
 | 18 h | 0,801 | 0,390 | 0,550 | **0,372** |
 | 24 h | 0,810 | 0,397 | 0,555 | **0,379** |
 
-El error del híbrido crece de $0{,}330$ a $0{,}379$ kW entre 1 h y 24 h: un $15\,\%$. El del GBM directo crece de $0{,}465$ a $0{,}555$: un $19\,\%$. La climatología crece de $0{,}353$ a $0{,}397$: un $12\,\%$. El híbrido gana en **todos** los horizontes, no solo en el corto plazo. La razón es que la climatología aporta la forma y el GBM corrige el nivel; el error adicional por horizonte es la incertidumbre creciente de la corrección, no una acumulación recursiva (el método es directo).
+El error del híbrido crece de $0{,}330$ a $0{,}379$ kW entre 1 h y 24 h: un $15$ %. El del GBM directo crece de $0{,}465$ a $0{,}555$: un $19$ %. La climatología crece de $0{,}353$ a $0{,}397$: un $12$ %. El híbrido gana en **todos** los horizontes, no solo en el corto plazo. La razón es que la climatología aporta la forma y el GBM corrige el nivel; el error adicional por horizonte es la incertidumbre creciente de la corrección, no una acumulación recursiva (el método es directo).
 
 **Por qué el error no explota a 24 h.** En un método recursivo, el error se compondría. En el método directo, cada horizonte se predice con features conocidas en $t_0$; lo que crece es la dificultad de la corrección, no el error acumulado. La forma suave del perfil hace el resto.
 
@@ -1160,14 +1160,14 @@ donde $\mathcal{H}_d$ es el conjunto de horas con dato real. **La suma se hace s
 | **Híbrido** | **3,6 kWh/día** | 6,1 kWh/día | **2,2 %** |
 | Climatología | 4,5 kWh/día | 7,6 kWh/día | 3,0 % |
 
-La energía diaria real media de los 13 días es $150{,}1$ kWh. El error mediano del híbrido es $3{,}6$ kWh, el $2{,}4\,\%$ de la energía media; el MAPE mediano es $2{,}2\,\%$.
+La energía diaria real media de los 13 días es $150{,}1$ kWh. El error mediano del híbrido es $3{,}6$ kWh, el $2{,}4$ % de la energía media; el MAPE mediano es $2{,}2$ %.
 
 **Por qué el error diario no es $\sqrt{24}$ veces el error horario.** Si los errores horarios fueran independientes,
 
 $$
 \mathrm{Var}\left(\sum_{h=1}^{24}\varepsilon_h\right) =
 \sum_{h=1}^{24}\mathrm{Var}(\varepsilon_h)
-\approx24\,\sigma_\varepsilon^2,
+\approx24\thinspace\sigma_\varepsilon^2,
 \qquad (11.2)
 $$
 
@@ -1204,8 +1204,8 @@ El pronóstico para ese día:
 | Real | 131,3 kWh |
 | Pronóstico híbrido | 172,7 kWh |
 | Pronóstico climatología | 169,9 kWh |
-| Error híbrido | $+41{,}4$ kWh ($+31{,}6\,\%$) |
-| Error climatología | $+38{,}6$ kWh ($+29{,}4\,\%$) |
+| Error híbrido | $+41{,}4$ kWh ($+31{,}6$ %) |
+| Error climatología | $+38{,}6$ kWh ($+29{,}4$ %) |
 
 **Descomposición.** Sepárese la carga en base y ocupación:
 
@@ -1223,7 +1223,7 @@ La base se pronostica bien: a las 03:00 el real es $5{,}38$ y el modelo predice 
 **Por qué es un problema de covariado, no de memorización.** El modelo aprendió la regla “lunes ⇒ perfil laboral”. La aplicó correctamente a un lunes que no fue laboral. No memorizó el 16-11 (no lo vio en train); generalizó una regla que es cierta en el régimen normal y falsa en el festivo. La variable que falta es
 
 $$
-\text{feriado}_t\in\{0,1\},
+\text{feriado}_t\in\lbrace0,1\rbrace,
 \qquad (11.5)
 $$
 
@@ -1238,7 +1238,7 @@ o, más general, una variable latente de ocupación académica. Sin ella, ningú
 | Fold 5 completo | 2.010 | 0,6431 | **0,6322** | 0,2335 | **0,2979** |
 | Fold 5 sin 16-11 | 1.434 | **0,2116** | 0,2383 | **0,9613** | 0,9411 |
 
-**La inversión del ranking se explica por un solo día.** Sin el festivo, el híbrido le gana a la climatología por $0{,}027$ kW ($11{,}2\,\%$) y su $R^2$ sube a $0{,}9613$. Con el festivo, la climatología gana por $0{,}011$ kW. (El 11-14 es el primer día de test y puede estar levemente beneficiado por el solapamiento descrito en 7.4; la conclusión sobre el 16-11 no depende de ese día.) El fold 5 no dice “el híbrido no generaliza”; dice “el híbrido no sabe que el 16-11 fue festivo”.
+**La inversión del ranking se explica por un solo día.** Sin el festivo, el híbrido le gana a la climatología por $0{,}027$ kW ($11{,}2$ %) y su $R^2$ sube a $0{,}9613$. Con el festivo, la climatología gana por $0{,}011$ kW. (El 11-14 es el primer día de test y puede estar levemente beneficiado por el solapamiento descrito en 7.4; la conclusión sobre el 16-11 no depende de ese día.) El fold 5 no dice “el híbrido no generaliza”; dice “el híbrido no sabe que el 16-11 fue festivo”.
 
 ### 11.5 Error por día en el fold 5
 
@@ -1287,14 +1287,12 @@ Con un umbral $|z|>3$, solo el 16-11 se marca como anomalía. El umbral correspo
 
 ### 12.1 Definición
 
-La función implementada en `forecast.py` es
+La función implementada en `forecast.py` es `forecast_day(historia, bundle)`, que produce el vector de pronóstico
 
 $$
-\texttt{forecast\_day}(\text{historia},\text{bundle})
-\;\longrightarrow\;
-\left\{
+\left\lbrace
 \hat P_{t_0+1},\dots,\hat P_{t_0+24}
-\right\}.
+\right\rbrace.
 \qquad (12.1)
 $$
 
@@ -1310,14 +1308,14 @@ Devuelve un `DataFrame` con 24 filas: `target`, `P_hat`, `P_clim`, `resid_hat`, 
 El origen es el último timestamp **válido** de la historia:
 
 $$
-t_0=\max\{t:\ P_t\ \text{observado}\}.
+t_0=\max\lbrace{}t:\ P_t\ \text{observado}\rbrace.
 \qquad (12.2)
 $$
 
 Se reconstruye la grilla horaria completa entre el mínimo y el máximo de la historia:
 
 $$
-\mathcal{G}=\{t_{\min},t_{\min}+1\text{ h},\dots,t_{\max}\}.
+\mathcal{G}=\lbrace{}t_{\min},t_{\min}+1\text{ h},\dots,t_{\max}\rbrace.
 \qquad (12.3)
 $$
 
@@ -1341,7 +1339,7 @@ $$
 \qquad
 h_k=\text{hora}(\tau_k),
 \quad
-w_k=\mathbf{1}\{\text{dow}(\tau_k)\ge5\}.
+w_k=\mathbf{1}\lbrace\text{dow}(\tau_k)\ge5\rbrace.
 \qquad (12.5)
 $$
 
@@ -1412,7 +1410,7 @@ Historia hasta el 16-11 a las 23:00. Modelo entrenado hasta el 13-11 (no vio el 
 
 ## 13. Limitaciones
 
-1. **Cobertura.** $45{,}3\,\%$ de minutos faltantes, $609$ horas válidas, $30$ días de origen, $25$ días de entrenamiento. Es un MVP, no un sistema en producción.
+1. **Cobertura.** $45{,}3$ % de minutos faltantes, $609$ horas válidas, $30$ días de origen, $25$ días de entrenamiento. Es un MVP, no un sistema en producción.
 2. **Tamaño efectivo.** Las ventanas se solapan; el número de targets distintos es a lo sumo $600$ en train. La brecha train/test es inevitable en cierta medida.
 3. **Sin variables exógenas.** No hay clima, ocupación, calendario académico ni festivos. El caso 11-16 muestra que un solo covariado faltante puede costar $41$ kWh en un día.
 4. **Sin pronóstico probabilístico.** Se entrega un punto, no un intervalo. La incertidumbre no se cuantifica.
@@ -1433,7 +1431,7 @@ Agregar
 
 $$
 \text{feriado}_t,\qquad
-\text{semana\_academica}_t,\qquad
+\text{semana académica}_t,\qquad
 \text{examen}_t
 \qquad (14.1)
 $$
@@ -1451,7 +1449,7 @@ $$
 \rho_\tau\left(y-q\right)
 \right],
 \qquad
-\rho_\tau(u)=u\left(\tau-\mathbf{1}\{u<0\}\right).
+\rho_\tau(u)=u\left(\tau-\mathbf{1}\lbrace{}u<0\rbrace\right).
 \qquad (14.2)
 $$
 
@@ -1460,13 +1458,13 @@ Con $\tau=0{,}1,0{,}5,0{,}9$ se obtiene un intervalo $[q_{0.1},q_{0.9}]$. La cob
 $$
 \text{cobertura} =
 \frac{1}{n}\sum_i
-\mathbf{1}\left\{
+\mathbf{1}\left\lbrace
 \hat q_{0.1}(x_i)\le y_i\le\hat q_{0.9}(x_i)
-\right\}.
+\right\rbrace.
 \qquad (14.3)
 $$
 
-Esto resolvería la limitación 4 y permitiría decir “el consumo estará entre $X$ e $Y$ kWh con $80\,\%$ de confianza”.
+Esto resolvería la limitación 4 y permitiría decir “el consumo estará entre $X$ e $Y$ kWh con $80$ % de confianza”.
 
 ### 14.3 Modelo de dos componentes
 
@@ -1585,4 +1583,4 @@ python analysis\daily_energy_error.py
 
 ---
 
-**Resumen final.** El proyecto formula el pronóstico como una regresión directa multi-horizonte con información $\mathcal{F}_{t_0}$-medible, entrena un híbrido climatología + GBM de residuos, valida con rolling origin sin shuffle y reporta tanto el rendimiento típico (MAE mediano $0{,}274$ kW) como el peor caso (fold 5, $0{,}643$ kW). La brecha train/test se descompone: $87{,}5\,\%$ se explica por el festivo del 16-11, no por memorización. En el régimen normal el modelo alcanza $R^2=0{,}961$, MAE $0{,}212$ kW y una brecha de $0{,}062$ kW. La conclusión es honesta: el modelo aprende la estructura del bloque y falla cuando cambia el régimen; la solución principal no es más regularización, es el covariado que falta.
+**Resumen final.** El proyecto formula el pronóstico como una regresión directa multi-horizonte con información $\mathcal{F}_{t_0}$-medible, entrena un híbrido climatología + GBM de residuos, valida con rolling origin sin shuffle y reporta tanto el rendimiento típico (MAE mediano $0{,}274$ kW) como el peor caso (fold 5, $0{,}643$ kW). La brecha train/test se descompone: $87{,}5$ % se explica por el festivo del 16-11, no por memorización. En el régimen normal el modelo alcanza $R^2=0{,}961$, MAE $0{,}212$ kW y una brecha de $0{,}062$ kW. La conclusión es honesta: el modelo aprende la estructura del bloque y falla cuando cambia el régimen; la solución principal no es más regularización, es el covariado que falta.

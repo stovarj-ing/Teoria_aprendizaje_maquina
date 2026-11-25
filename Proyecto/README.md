@@ -43,7 +43,7 @@ O abrirlas con Jupyter y correr `01` y después `02`.
 No es una predicción determinística del instante del pico. Es una **probabilidad condicional**:
 
 $$
-\hat{p}_t=\mathbb{P}\left(\max_{1\le h\le 15}P_{t+h}>12\;\middle|\;\mathcal{F}_t\right),
+\hat{p}_t=\mathbb{P}\left(\max_{1\le h\le 15}P_{t+h}>12\thickspace\middle|\thickspace\mathcal{F}_t\right),
 $$
 
 donde $\mathcal{F}_t$ es toda la información disponible hasta $t$.
@@ -55,13 +55,13 @@ donde $\mathcal{F}_t$ es toda la información disponible hasta $t$.
 Target:
 
 $$
-Y_t=\mathbf{1}\left\{\max_{1\le h\le 15}P_{t+h}>12\right\}.
+Y_t=\mathbf{1}\left\lbrace\max_{1\le h\le 15}P_{t+h}>12\right\rbrace.
 $$
 
 Features (7, estandarizadas con media y desvío del entrenamiento):
 
 $$
-x_t=\left[P_{\max,15},\;P_{\mathrm{mean},15},\;V,\;\mathrm{PF},\;\sin\frac{2\pi h}{24},\;\cos\frac{2\pi h}{24},\;\text{weekend}\right].
+x_t=\left[P_{\max,15},\thickspace{}P_{\mathrm{mean},15},\thickspace{}V,\thickspace\mathrm{PF},\thickspace\sin\frac{2\pi h}{24},\thickspace\cos\frac{2\pi h}{24},\thickspace\text{weekend}\right].
 $$
 
 Ecuación ajustada:
@@ -71,13 +71,13 @@ $$
 \begin{aligned}
 \mathrm{logit}\hat{p}_t
 ={}&-9.015
-+1.236\,z_{P\max15}
--1.021\,\text{weekend}
--0.850\,z_{\cos}\\
-&+0.604\,z_{\sin}
-+0.604\,z_{P\mathrm{mean}15}
--0.556\,z_V
-+0.538\,z_{PF}.
++1.236\thinspace{}z_{P\max15}
+-1.021\thinspace\text{weekend}
+-0.850\thinspace{}z_{\cos}\\
+&+0.604\thinspace{}z_{\sin}
++0.604\thinspace{}z_{P\mathrm{mean}15}
+-0.556\thinspace{}z_V
++0.538\thinspace{}z_{PF}.
 \end{aligned}
 }
 $$

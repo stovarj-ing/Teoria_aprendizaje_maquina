@@ -535,7 +535,7 @@ $$
 La diferencia $R(f)-\hat{R}_n(f)$ es la **brecha de generalización**. Memorizar es hacer $\hat{R}_n\to 0$ mientras $R$ aumenta. El diseño del modelo se orienta a controlar esa brecha mediante **minimización del riesgo estructural**:
 
 $$
-\min_{\theta}\ \hat{R}_n(\theta)+\lambda\,\Omega(\theta),
+\min_{\theta}\ \hat{R}_n(\theta)+\lambda\thinspace\Omega(\theta),
 $$
 
 donde $\Omega(\theta)$ penaliza la complejidad y $\lambda$ se elige por validación. Una cota clásica (VC) formaliza el compromiso:
@@ -558,7 +558,7 @@ $$
 \mathrm{NaN}, & \text{en otro caso},
 \end{cases}
 \qquad
-\mathcal{T}_m=\{t:\ m\le t<m+1\text{ min}\}.
+\mathcal{T}_m=\lbrace{}t:\ m\le t<m+1\text{ min}\rbrace.
 $$
 
 Si el minuto no tiene suficientes muestras (hueco o cadencia insuficiente), se marca como faltante y no se usa para entrenar. El target se define con horizonte $H$ y umbral $\tau_P$:
@@ -566,7 +566,7 @@ Si el minuto no tiene suficientes muestras (hueco o cadencia insuficiente), se m
 $$
 Y_t=
 \begin{cases}
-\mathbf{1}\!\left\{\displaystyle\max_{1\le h\le H}\bar{P}_{t+h}>\tau_P\right\}, & \text{si todos los }\bar{P}_{t+h}\text{ existen},\\[6pt]
+\mathbf{1}\negthinspace\left\lbrace\displaystyle\max_{1\le h\le H}\bar{P}_{t+h}>\tau_P\right\rbrace, & \text{si todos los }\bar{P}_{t+h}\text{ existen},\\[6pt]
 \mathrm{NaN}, & \text{si falta alguno}.
 \end{cases}
 $$
@@ -589,8 +589,8 @@ $$
 
 con las siguientes componentes:
 
-- **Rezagos:** $P_{t-k},Q_{t-k},I_{t-k},V_{t-k}$ para $k\in\{1,5,15,60\}$ min.
-- **Ventanas móviles:** media, desvío y máximo de $P$ en ventanas $W\in\{5,15,60\}$ min.
+- **Rezagos:** $P_{t-k},Q_{t-k},I_{t-k},V_{t-k}$ para $k\in\lbrace1,5,15,60\rbrace$ min.
+- **Ventanas móviles:** media, desvío y máximo de $P$ en ventanas $W\in\lbrace5,15,60\rbrace$ min.
 - **Calendario:** hora, día de la semana, fin de semana, feriado (one-hot).
 - **Eléctricas:** $\mathrm{PF}_t$, $Q_t$, $V_t$, desbalance de fases.
 - **Eventos:** cantidad y energía de eventos en la última hora, tiempo desde el último evento.
@@ -600,7 +600,7 @@ El mapa $\phi$ es fijo y de dimensión controlada. No es una tabla que guarda ca
 
 ### 16.5 Modelo de estados (HMM)
 
-El estado de carga $S_t\in\{1,\dots,K\}$ no se observa; se infiere. Se modela con un HMM gaussiano sobre $o_t=(\bar{P}_t,\bar{Q}_t)$:
+El estado de carga $S_t\in\lbrace1,\dots,K\rbrace$ no se observa; se infiere. Se modela con un HMM gaussiano sobre $o_t=(\bar{P}_t,\bar{Q}_t)$:
 
 $$
 A_{ij}=\mathbb{P}(S_t=j\mid S_{t-1}=i),
@@ -608,14 +608,14 @@ A_{ij}=\mathbb{P}(S_t=j\mid S_{t-1}=i),
 p(o_t\mid S_t=k)=\mathcal{N}(o_t;\mu_k,\Sigma_k),
 $$
 
-con parámetros $\lambda=(\pi,A,\{\mu_k,\Sigma_k\})$. La verosimilitud de la secuencia es:
+con parámetros $\lambda=(\pi,A,\lbrace\mu_k,\Sigma_k\rbrace)$. La verosimilitud de la secuencia es:
 
 $$
 p(o_{1:T};\lambda) =
 \sum_{s_{1:T}}
-\pi_{s_1}\,p(o_1\mid s_1)
+\pi_{s_1}\thinspace{}p(o_1\mid s_1)
 \prod_{t=2}^{T}
-A_{s_{t-1},s_t}\,p(o_t\mid s_t),
+A_{s_{t-1},s_t}\thinspace{}p(o_t\mid s_t),
 $$
 
 y se maximiza con **EM (Baum-Welch)**. En el paso E se calculan las posteriores $\gamma_{t,k}=\mathbb{P}(S_t=k\mid o_{1:T})$ y las transiciones $\xi_{t,ij}=\mathbb{P}(S_t=i,S_{t+1}=j\mid o_{1:T})$; en el paso M se actualizan:
@@ -635,12 +635,12 @@ $$
 Para las features del clasificador se usa la **posterior causal**, calculada con el filtro hacia adelante y no con suavizado:
 
 $$
-\alpha_{t,k}=p(o_t\mid S_t=k)\sum_{j=1}^{K}A_{jk}\,\alpha_{t-1,j},
+\alpha_{t,k}=p(o_t\mid S_t=k)\sum_{j=1}^{K}A_{jk}\thinspace\alpha_{t-1,j},
 \qquad
 \gamma_{t,k}=\frac{\alpha_{t,k}}{\sum_{j=1}^{K}\alpha_{t,j}}.
 $$
 
-Así, en el instante $t$ solo se usa $o_{1:t}$; no se filtra información del futuro. En EM se usa la posterior suavizada (que mira toda la secuencia), pero en las features se usa la filtrada; el contexto indica cuál. El número de estados se fija en $K\in\{3,4,5\}$ y se elige por log-likelihood en validación e interpretabilidad. Los estados son identificables solo hasta permutación; se ordenan por potencia media para asignarles nombre (base, ocupación, evento, carga alta).
+Así, en el instante $t$ solo se usa $o_{1:t}$; no se filtra información del futuro. En EM se usa la posterior suavizada (que mira toda la secuencia), pero en las features se usa la filtrada; el contexto indica cuál. El número de estados se fija en $K\in\lbrace3,4,5\rbrace$ y se elige por log-likelihood en validación e interpretabilidad. Los estados son identificables solo hasta permutación; se ordenan por potencia media para asignarles nombre (base, ocupación, evento, carga alta).
 
 ### 16.6 Modelo discriminativo
 
@@ -655,9 +655,9 @@ $$
 **Modelo principal (gradient boosting):** una expansión aditiva de árboles,
 
 $$
-f_\theta(x)=\sum_{m=1}^{M}\nu\,T_m(x;\Theta_m),
+f_\theta(x)=\sum_{m=1}^{M}\nu\thinspace{}T_m(x;\Theta_m),
 \qquad
-T_m(x)=\sum_{j=1}^{J_m}c_{mj}\,\mathbf{1}\{x\in R_{mj}\},
+T_m(x)=\sum_{j=1}^{J_m}c_{mj}\thinspace\mathbf{1}\lbrace{}x\in R_{mj}\rbrace,
 $$
 
 donde $T_m$ parte el espacio en regiones $R_{mj}$ y asigna una constante $c_{mj}$, $\nu$ es la tasa de aprendizaje y $M$ el número de árboles. La probabilidad es:
@@ -688,13 +688,13 @@ $$
 con calibración isotónica o Platt:
 
 $$
-\hat{p}^{\text{cal}}=\sigma\big(a\,\mathrm{logit}(\hat{p})+b\big).
+\hat{p}^{\text{cal}}=\sigma\big(a\thinspace\mathrm{logit}(\hat{p})+b\big).
 $$
 
 La calidad de la calibración se mide con el error de calibración esperado:
 
 $$
-\mathrm{ECE}=\sum_{b=1}^{B}\frac{|B_b|}{N}\,
+\mathrm{ECE}=\sum_{b=1}^{B}\frac{|B_b|}{N}\thinspace
 \big|\mathrm{acc}(B_b)-\mathrm{conf}(B_b)\big|,
 $$
 
@@ -705,7 +705,7 @@ donde $B_b$ es el conjunto de muestras del bin $b$, $\mathrm{acc}(B_b)$ la frecu
 La alerta se dispara con un umbral $\tau$:
 
 $$
-a_t=\mathbf{1}\{\hat{p}_t^{\text{cal}}\ge\tau\}.
+a_t=\mathbf{1}\lbrace\hat{p}_t^{\text{cal}}\ge\tau\rbrace.
 $$
 
 Si las probabilidades están calibradas, el umbral óptimo bajo costos asimétricos es:
@@ -714,7 +714,7 @@ $$
 \boxed{\ \tau^*=\frac{C_{FP}}{C_{FP}+C_{FN}}\ }
 $$
 
-donde $C_{FP}$ es el costo de una falsa alarma y $C_{FN}$ el costo de un pico no advertido. La derivación es directa: alertar cuesta $C_{FP}(1-p)$; no alertar cuesta $C_{FN}\,p$. Se alerta si $C_{FP}(1-p)<C_{FN}\,p$, es decir, si $p>C_{FP}/(C_{FP}+C_{FN})$.
+donde $C_{FP}$ es el costo de una falsa alarma y $C_{FN}$ el costo de un pico no advertido. La derivación es directa: alertar cuesta $C_{FP}(1-p)$; no alertar cuesta $C_{FN}\thinspace{}p$. Se alerta si $C_{FP}(1-p)<C_{FN}\thinspace{}p$, es decir, si $p>C_{FP}/(C_{FP}+C_{FN})$.
 
 ### 16.9 Atribución de causa
 
@@ -731,10 +731,10 @@ $$
 \hat{c}_t=\arg\max_{c\in\mathcal{C}}\ \mathbb{P}\big(C=c\mid\Delta_t,\gamma_t\big),
 $$
 
-con $\mathcal{C}=\{$resistiva, motor, condensador, pérdida de carga, error de medición$\}$. Puede implementarse como un clasificador supervisado (si hay etiquetas de experimentos) o como un conjunto de reglas físicas. Antes de atribuir la causa se verifica la consistencia:
+con $\mathcal{C}=\lbrace$resistiva, motor, condensador, pérdida de carga, error de medición$\rbrace$. Puede implementarse como un clasificador supervisado (si hay etiquetas de experimentos) o como un conjunto de reglas físicas. Antes de atribuir la causa se verifica la consistencia:
 
 $$
-S_t=\sqrt{3}\,V_t I_t,
+S_t=\sqrt{3}\thinspace{}V_t I_t,
 \qquad
 P_t=\sum_{\ell=1}^{3}P_{t,\ell},
 \qquad
@@ -756,7 +756,7 @@ se estima un cuantil con regresión cuantílica:
 $$
 \hat{q}_\alpha(x_t)=\arg\min_{q}\ \mathbb{E}\big[\rho_\alpha(M_t-q)\big],
 \qquad
-\rho_\alpha(u)=\max\{\alpha u,(\alpha-1)u\}.
+\rho_\alpha(u)=\max\lbrace\alpha u,(\alpha-1)u\rbrace.
 $$
 
 Así se puede reportar “70 % de probabilidad de superar 12 kW y pico esperado entre 14 y 17 kW”.
@@ -784,9 +784,9 @@ La formulación anterior es deliberadamente no lineal y multicapa, pero la compl
 La validación avanza en el tiempo:
 
 $$
-\mathcal{D}_{\text{train}}^{(k)}=\{t\le T_k\},
+\mathcal{D}_{\text{train}}^{(k)}=\lbrace{}t\le T_k\rbrace,
 \qquad
-\mathcal{D}_{\text{test}}^{(k)}=\{T_k<t\le T_{k+1}\},
+\mathcal{D}_{\text{test}}^{(k)}=\lbrace{}T_k<t\le T_{k+1}\rbrace,
 \qquad
 k=1,\dots,K.
 $$
