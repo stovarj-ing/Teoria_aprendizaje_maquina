@@ -519,7 +519,7 @@ En la tabla resumen, el skill reportado es la **mediana del skill por fold**, no
 
 $$
 \widetilde{\mathrm{Skill}} =
-\operatorname{median}_{k=1,\dots,5}
+\mathrm{median}_{k=1,\dots,5}
 \left(
 1-\frac{\mathrm{MAE}_{m,k}}{\mathrm{MAE}_{\text{naive},k}}
 \right).
@@ -835,7 +835,7 @@ $$
 \mathbb{E}\left[\left(y-\hat f(x)\right)^2\right] =
 \sigma^2 +
 \left(\mathbb{E}[\hat f(x)]-f^*(x)\right)^2 +
-\operatorname{Var}\left(\hat f(x)\right),
+\mathrm{Var}\left(\hat f(x)\right),
 \qquad (8.16)
 $$
 
@@ -848,10 +848,10 @@ donde $\sigma^2$ es el ruido irreducible, $f^*$ es la media condicional verdader
 La identidad (8.15) permite verlo de otra forma:
 
 $$
-\operatorname{Var}(y) =
-\operatorname{Var}(\hat c) +
-\operatorname{Var}(r) +
-2\operatorname{Cov}(\hat c,r).
+\mathrm{Var}(y) =
+\mathrm{Var}(\hat c) +
+\mathrm{Var}(r) +
+2\mathrm{Cov}(\hat c,r).
 \qquad (8.17)
 $$
 
@@ -1165,8 +1165,8 @@ La energía diaria real media de los 13 días es $150{,}1$ kWh. El error mediano
 **Por qué el error diario no es $\sqrt{24}$ veces el error horario.** Si los errores horarios fueran independientes,
 
 $$
-\operatorname{Var}\left(\sum_{h=1}^{24}\varepsilon_h\right) =
-\sum_{h=1}^{24}\operatorname{Var}(\varepsilon_h)
+\mathrm{Var}\left(\sum_{h=1}^{24}\varepsilon_h\right) =
+\sum_{h=1}^{24}\mathrm{Var}(\varepsilon_h)
 \approx24\,\sigma_\varepsilon^2,
 \qquad (11.2)
 $$
@@ -1174,9 +1174,9 @@ $$
 y el error diario típico sería $\sqrt{24}\approx4{,}9$ veces el horario. Con un MAE horario típico de $\approx0{,}3$ kW, eso daría $\approx1{,}5$ kWh/día. El valor observado ($3{,}6$ kWh mediano) es mayor: los errores horarios están **positivamente correlacionados**. Tiene sentido: si el modelo se equivoca en el nivel del día (por ejemplo, un festivo), se equivoca en la misma dirección durante muchas horas. La covarianza es la que manda:
 
 $$
-\operatorname{Var}\left(\sum_h\varepsilon_h\right) =
-\sum_h\operatorname{Var}(\varepsilon_h) +
-2\sum_{h<h'}\operatorname{Cov}(\varepsilon_h,\varepsilon_{h'}).
+\mathrm{Var}\left(\sum_h\varepsilon_h\right) =
+\sum_h\mathrm{Var}(\varepsilon_h) +
+2\sum_{h<h'}\mathrm{Cov}(\varepsilon_h,\varepsilon_{h'}).
 \qquad (11.3)
 $$
 
@@ -1257,9 +1257,9 @@ El sesgo del 16-11 ($+1{,}718$ kW) es positivo y enorme: el modelo sobrestima to
 Con los errores diarios $\Delta_d$ de los 13 días:
 
 $$
-\operatorname{median}(\Delta)=-0{,}5,
+\mathrm{median}(\Delta)=-0{,}5,
 \qquad
-\operatorname{MAD}=3{,}2,
+\mathrm{MAD}=3{,}2,
 \qquad
 \hat\sigma=1{,}4826\times3{,}2=4{,}74.
 \qquad (11.6)
@@ -1268,7 +1268,7 @@ $$
 El puntaje robusto es
 
 $$
-z_d=\frac{\Delta_d-\operatorname{median}(\Delta)}{\hat\sigma}.
+z_d=\frac{\Delta_d-\mathrm{median}(\Delta)}{\hat\sigma}.
 \qquad (11.7)
 $$
 
@@ -1371,7 +1371,7 @@ $$
 La anomalía se evalúa cuando llega el día real, comparando la energía observada con la pronosticada en el mismo soporte:
 
 $$
-z=\frac{\hat E-E-\operatorname{median}(\Delta)}{\hat\sigma},
+z=\frac{\hat E-E-\mathrm{median}(\Delta)}{\hat\sigma},
 \qquad
 \text{alerta si }|z|>3.
 \qquad (12.9)

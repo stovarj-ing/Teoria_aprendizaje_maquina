@@ -61,7 +61,7 @@ $$
 Features (7, estandarizadas con media y desvío del entrenamiento):
 
 $$
-x_t=\left[P_{\max,15},\;P_{\mean,15},\;V,\;\mathrm{PF},\;\sin\frac{2\pi h}{24},\;\cos\frac{2\pi h}{24},\;\text{weekend}\right].
+x_t=\left[P_{\max,15},\;P_{\mathrm{mean},15},\;V,\;\mathrm{PF},\;\sin\frac{2\pi h}{24},\;\cos\frac{2\pi h}{24},\;\text{weekend}\right].
 $$
 
 Ecuación ajustada:
@@ -69,13 +69,13 @@ Ecuación ajustada:
 $$
 \boxed{
 \begin{aligned}
-\operatorname{logit}\hat{p}_t
+\mathrm{logit}\hat{p}_t
 ={}&-9.015
 +1.236\,z_{P\max15}
 -1.021\,\text{weekend}
 -0.850\,z_{\cos}\\
 &+0.604\,z_{\sin}
-+0.604\,z_{P\mean15}
++0.604\,z_{P\mathrm{mean}15}
 -0.556\,z_V
 +0.538\,z_{PF}.
 \end{aligned}
