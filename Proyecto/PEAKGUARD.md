@@ -611,8 +611,7 @@ $$
 con parámetros $\lambda=(\pi,A,\{\mu_k,\Sigma_k\})$. La verosimilitud de la secuencia es:
 
 $$
-p(o_{1:T};\lambda)
-=
+p(o_{1:T};\lambda) =
 \sum_{s_{1:T}}
 \pi_{s_1}\,p(o_1\mid s_1)
 \prod_{t=2}^{T}
@@ -670,8 +669,7 @@ $$
 El entrenamiento minimiza la entropía cruzada regularizada:
 
 $$
-\mathcal{L}(\theta)
-=
+\mathcal{L}(\theta) =
 -\frac{1}{N}\sum_{t=1}^{N}
 \Big[y_t\log\hat{p}_t+(1-y_t)\log(1-\hat{p}_t)\Big]
 +\lambda_1\|\theta\|_1+\lambda_2\|\theta\|_2.

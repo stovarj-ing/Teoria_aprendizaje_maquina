@@ -166,8 +166,7 @@ La persistencia de corto plazo es muy alta: la correlación con la hora anterior
 Se modela la potencia como un proceso estocástico $\{P_t\}_{t\in\mathbb{Z}}$ en tiempo discreto horario. Sea $\mathcal{F}_{t_0}$ la información disponible en el origen:
 
 $$
-\mathcal{F}_{t_0}
-=
+\mathcal{F}_{t_0} =
 \sigma\left(
 \{P_s:\ s\le t_0\}
 \ \cup\
@@ -179,8 +178,7 @@ $$
 El calendario futuro es determinista (hora, día de la semana, fin de semana), así que se conoce en $t_0$. El objetivo es, para cada $h=1,\dots,24$,
 
 $$
-\hat y_{t_0+h}
-=
+\hat y_{t_0+h} =
 \mathbb{E}\left[P_{t_0+h}\mid \mathcal{F}_{t_0}\right].
 \qquad (3.2)
 $$
@@ -212,8 +210,7 @@ El entrenamiento minimiza el riesgo empírico con pérdida cuadrática:
 $$
 L_2(y,\hat y)=\frac12\left(y-\hat y\right)^2,
 \qquad
-\hat R_{\text{emp}}(f)
-=
+\hat R_{\text{emp}}(f) =
 \frac{1}{|\mathcal{D}_{\text{tr}}|}
 \sum_{(x,y)\in\mathcal{D}_{\text{tr}}}
 L_2\left(y,f(x)\right).
@@ -395,8 +392,7 @@ Repite la misma hora del día anterior. Captura el perfil diario y es el baselin
 ### 5.3 Media global
 
 $$
-\hat y_{t_0+h}=\bar y_{\text{tr}}
-=
+\hat y_{t_0+h}=\bar y_{\text{tr}} =
 \frac{1}{|\mathcal{D}_{\text{tr}}|}
 \sum_{(x,y)\in\mathcal{D}_{\text{tr}}}y.
 \qquad (5.3)
@@ -418,8 +414,7 @@ $$
 Para cada celda se estima la media condicional:
 
 $$
-\hat c_{h,w}
-=
+\hat c_{h,w} =
 \frac{
 \displaystyle\sum_{i=1}^{N}
 y_i\,\mathbf{1}\{h_i=h,\ w_i=w\}
@@ -453,8 +448,7 @@ $$
 Derivando respecto de $c_{h,w}$ e igualando a cero:
 
 $$
-\frac{\partial\ell}{\partial c_{h,w}}
-=
+\frac{\partial\ell}{\partial c_{h,w}} =
 \frac{1}{\sigma^2}
 \sum_{i:\ h_i=h,\ w_i=w}
 \left(y_i-c_{h,w}\right)=0
@@ -486,8 +480,7 @@ Es el estimador de máxima verosimilitud bajo el modelo de celda constante: una 
 ### 6.1 MAE
 
 $$
-\mathrm{MAE}
-=
+\mathrm{MAE} =
 \frac{1}{n}
 \sum_{i=1}^{n}
 \left|y_i-\hat y_i\right|.
@@ -499,8 +492,7 @@ Está en kW, se interpreta directamente y es robusta a outliers. Su óptimo pobl
 ### 6.2 RMSE
 
 $$
-\mathrm{RMSE}
-=
+\mathrm{RMSE} =
 \sqrt{
 \frac{1}{n}
 \sum_{i=1}^{n}
@@ -514,8 +506,7 @@ También está en kW, pero penaliza los errores grandes al cuadrado. Su óptimo 
 ### 6.3 Skill contra seasonal naive
 
 $$
-\mathrm{Skill}
-=
+\mathrm{Skill} =
 1-\frac{\mathrm{MAE}_{\text{modelo}}}{\mathrm{MAE}_{\text{naive}}}.
 \qquad (6.3)
 $$
@@ -527,8 +518,7 @@ $$
 En la tabla resumen, el skill reportado es la **mediana del skill por fold**, no el skill calculado con la mediana de los MAE:
 
 $$
-\widetilde{\mathrm{Skill}}
-=
+\widetilde{\mathrm{Skill}} =
 \operatorname{median}_{k=1,\dots,5}
 \left(
 1-\frac{\mathrm{MAE}_{m,k}}{\mathrm{MAE}_{\text{naive},k}}
@@ -541,8 +531,7 @@ Es una distinción sutil: la mediana de los cocientes no es el cociente de las m
 ### 6.4 MAPE
 
 $$
-\mathrm{MAPE}
-=
+\mathrm{MAPE} =
 \frac{100}{n}
 \sum_{i=1}^{n}
 \frac{\left|y_i-\hat y_i\right|}{\left|y_i\right|}.
@@ -554,8 +543,7 @@ Es adimensional y fácil de comunicar, pero inestable cuando $y\approx0$. En est
 ### 6.5 R²
 
 $$
-R^2
-=
+R^2 =
 1-\frac{\sum_i\left(y_i-\hat y_i\right)^2}
 {\sum_i\left(y_i-\bar y_{\text{te}}\right)^2}.
 \qquad (6.6)
@@ -583,8 +571,7 @@ $$
 **MAE pooled.** Como las filas de test de cada fold son disjuntas, el MAE sobre todas las filas de test es
 
 $$
-\mathrm{MAE}_{\text{pooled}}
-=
+\mathrm{MAE}_{\text{pooled}} =
 \frac{\sum_{k=1}^{5} n_k\,\mathrm{MAE}_k}
 {\sum_{k=1}^{5} n_k}.
 \qquad (6.8)
@@ -619,12 +606,10 @@ $$
 Para el fold $k=1,\dots,5$:
 
 $$
-\mathcal{D}_{\text{tr}}^{(k)}
-=
+\mathcal{D}_{\text{tr}}^{(k)} =
 \bigcup_{j=1}^{k}\mathcal{B}_j,
 \qquad
-\mathcal{D}_{\text{te}}^{(k)}
-=
+\mathcal{D}_{\text{te}}^{(k)} =
 \mathcal{B}_{k+1}.
 \qquad (7.2)
 $$
@@ -683,12 +668,10 @@ $$
 El objetivo es
 
 $$
-\hat\beta
-=
+\hat\beta =
 \arg\min_{\beta}
 \left\{
-\|y-X\beta\|_2^2
-+
+\|y-X\beta\|_2^2 +
 \alpha\|\beta\|_2^2
 \right\},
 \qquad
@@ -699,8 +682,7 @@ $$
 Derivando respecto de $\beta$:
 
 $$
-\nabla_\beta
-=
+\nabla_\beta =
 -2X^T(y-X\beta)+2\alpha\beta=0
 \;\Longrightarrow\;
 \left(X^TX+\alpha I\right)\hat\beta=X^Ty,
@@ -709,8 +691,7 @@ $$
 
 $$
 \boxed{
-\hat\beta
-=
+\hat\beta =
 \left(X^TX+\alpha I\right)^{-1}X^Ty
 }.
 \qquad (8.4)
@@ -768,15 +749,12 @@ $$
 Se ajusta un árbol a $r^{(m)}$. Para una hoja $R_{jm}$, el valor óptimo con penalización $L_2$ es
 
 $$
-\gamma_{jm}
-=
+\gamma_{jm} =
 \arg\min_{\gamma}
 \left\{
-\sum_{i\in R_{jm}}\left(r_i^{(m)}-\gamma\right)^2
-+
+\sum_{i\in R_{jm}}\left(r_i^{(m)}-\gamma\right)^2 +
 \lambda\gamma^2
-\right\}
-=
+\right\} =
 \frac{\sum_{i\in R_{jm}}r_i^{(m)}}{n_{jm}+\lambda}.
 \qquad (8.9)
 $$
@@ -799,10 +777,8 @@ $$
 #### 8.4.1 Definición
 
 $$
-\hat y_{t_0+h}
-=
-\hat c_{h,w}
-+
+\hat y_{t_0+h} =
+\hat c_{h,w} +
 \hat g\left(x_{t_0,h}\right),
 \qquad (8.11)
 $$
@@ -817,14 +793,12 @@ $$
 es el residuo. El GBM se entrena sobre $r$, no sobre $y$:
 
 $$
-\hat g
-=
+\hat g =
 \arg\min_{g\in\mathcal{G}}
 \sum_{(x,y)\in\mathcal{D}_{\text{tr}}}
 \left(
 y-\hat c_{h,w}-g(x)
-\right)^2
-+
+\right)^2 +
 \lambda\,\Omega(g).
 \qquad (8.13)
 $$
@@ -834,10 +808,8 @@ $$
 Un GBM con predicción inicial $F_0(x)=\hat c_{h,w}$ y $M$ iteraciones ajusta
 
 $$
-F_M(x)
-=
-\hat c_{h,w}
-+
+F_M(x) =
+\hat c_{h,w} +
 \nu\sum_{m=1}^{M}h_m(x),
 \qquad (8.14)
 $$
@@ -847,10 +819,8 @@ donde los árboles se ajustan a los residuos $y-F_{m-1}$. El híbrido es exactam
 #### 8.4.3 Identidad del error
 
 $$
-y-\hat y
-=
-\left(y-\hat c\right)-\hat g
-=
+y-\hat y =
+\left(y-\hat c\right)-\hat g =
 r-\hat g.
 \qquad (8.15)
 $$
@@ -862,12 +832,9 @@ El error del híbrido es el error del GBM sobre el residuo. Si $\hat g=0$, el er
 Para un punto de test $x$,
 
 $$
-\mathbb{E}\left[\left(y-\hat f(x)\right)^2\right]
-=
-\sigma^2
-+
-\left(\mathbb{E}[\hat f(x)]-f^*(x)\right)^2
-+
+\mathbb{E}\left[\left(y-\hat f(x)\right)^2\right] =
+\sigma^2 +
+\left(\mathbb{E}[\hat f(x)]-f^*(x)\right)^2 +
 \operatorname{Var}\left(\hat f(x)\right),
 \qquad (8.16)
 $$
@@ -881,12 +848,9 @@ donde $\sigma^2$ es el ruido irreducible, $f^*$ es la media condicional verdader
 La identidad (8.15) permite verlo de otra forma:
 
 $$
-\operatorname{Var}(y)
-=
-\operatorname{Var}(\hat c)
-+
-\operatorname{Var}(r)
-+
+\operatorname{Var}(y) =
+\operatorname{Var}(\hat c) +
+\operatorname{Var}(r) +
 2\operatorname{Cov}(\hat c,r).
 \qquad (8.17)
 $$
@@ -922,10 +886,8 @@ La regularización es deliberada: con 25 días, un modelo más flexible reduce e
 
 $$
 \boxed{
-\hat y_{t_0+h}
-=
-\hat c_{h,w}
-+
+\hat y_{t_0+h} =
+\hat c_{h,w} +
 \hat g_{\text{GBM}}\left(x_{t_0,h}\right)
 }
 \qquad (9.1)
@@ -1008,8 +970,7 @@ El GBM original tiene un MAE de test $0{,}015$ kW mejor ($2{,}4\,\%$), pero una 
 Las diferencias de MAE por fold entre híbrido y climatología son:
 
 $$
-d_k=\mathrm{MAE}^{\text{hib}}_k-\mathrm{MAE}^{\text{clim}}_k
-=
+d_k=\mathrm{MAE}^{\text{hib}}_k-\mathrm{MAE}^{\text{clim}}_k =
 (-0{,}0118,\ -0{,}0242,\ -0{,}0599,\ -0{,}0243,\ +0{,}0110).
 $$
 
@@ -1033,8 +994,7 @@ Con 5 folds, la ventaja del híbrido **no es estadísticamente significativa** a
 ### 10.1 Brecha train/test
 
 $$
-\mathrm{Gap}
-=
+\mathrm{Gap} =
 \mathrm{MAE}_{\text{test}}-\mathrm{MAE}_{\text{train}}.
 \qquad (10.1)
 $$
@@ -1205,8 +1165,7 @@ La energía diaria real media de los 13 días es $150{,}1$ kWh. El error mediano
 **Por qué el error diario no es $\sqrt{24}$ veces el error horario.** Si los errores horarios fueran independientes,
 
 $$
-\operatorname{Var}\left(\sum_{h=1}^{24}\varepsilon_h\right)
-=
+\operatorname{Var}\left(\sum_{h=1}^{24}\varepsilon_h\right) =
 \sum_{h=1}^{24}\operatorname{Var}(\varepsilon_h)
 \approx24\,\sigma_\varepsilon^2,
 \qquad (11.2)
@@ -1215,10 +1174,8 @@ $$
 y el error diario típico sería $\sqrt{24}\approx4{,}9$ veces el horario. Con un MAE horario típico de $\approx0{,}3$ kW, eso daría $\approx1{,}5$ kWh/día. El valor observado ($3{,}6$ kWh mediano) es mayor: los errores horarios están **positivamente correlacionados**. Tiene sentido: si el modelo se equivoca en el nivel del día (por ejemplo, un festivo), se equivoca en la misma dirección durante muchas horas. La covarianza es la que manda:
 
 $$
-\operatorname{Var}\left(\sum_h\varepsilon_h\right)
-=
-\sum_h\operatorname{Var}(\varepsilon_h)
-+
+\operatorname{Var}\left(\sum_h\varepsilon_h\right) =
+\sum_h\operatorname{Var}(\varepsilon_h) +
 2\sum_{h<h'}\operatorname{Cov}(\varepsilon_h,\varepsilon_{h'}).
 \qquad (11.3)
 $$
@@ -1378,10 +1335,8 @@ Las features se construyen con las mismas fórmulas de la sección 4.3. El model
 ### 12.3 Predicción
 
 $$
-\hat P_{\tau_k}
-=
-\hat c_{h_k,w_k}
-+
+\hat P_{\tau_k} =
+\hat c_{h_k,w_k} +
 \hat g\left(x_{t_0,k}\right),
 \qquad
 h_k=\text{hora}(\tau_k),
@@ -1490,8 +1445,7 @@ al vector $x$. El modelo podría aprender la diferencia entre un lunes laboral y
 En lugar de un punto, estimar cuantiles:
 
 $$
-\hat q_\tau(x)
-=
+\hat q_\tau(x) =
 \arg\min_q
 \mathbb{E}\left[
 \rho_\tau\left(y-q\right)
@@ -1504,8 +1458,7 @@ $$
 Con $\tau=0{,}1,0{,}5,0{,}9$ se obtiene un intervalo $[q_{0.1},q_{0.9}]$. La cobertura empírica se evalúa con
 
 $$
-\text{cobertura}
-=
+\text{cobertura} =
 \frac{1}{n}\sum_i
 \mathbf{1}\left\{
 \hat q_{0.1}(x_i)\le y_i\le\hat q_{0.9}(x_i)
@@ -1535,8 +1488,7 @@ Para comparar dos pronósticos con errores $e_{1,t}$ y $e_{2,t}$:
 $$
 d_t=\left|e_{1,t}\right|-\left|e_{2,t}\right|,
 \qquad
-\mathrm{DM}
-=
+\mathrm{DM} =
 \frac{\bar d}{\sqrt{\hat V(\bar d)}},
 \qquad (14.5)
 $$

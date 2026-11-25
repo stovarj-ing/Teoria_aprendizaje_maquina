@@ -109,10 +109,8 @@ La energía diaria real media de esos días es **150,1 kWh**. El **11-16** es la
 **Modelo final:** híbrido con residuo GBM regularizado:
 
 $$
-\hat Y^{\text{hyb}}_{t_0+h}
-=
-\hat Y^{\text{clim}}_{h,d}
-+
+\hat Y^{\text{hyb}}_{t_0+h} =
+\hat Y^{\text{clim}}_{h,d} +
 \hat r_\theta(x_{t_0},h),
 \qquad
 r=y-\hat Y^{\text{clim}}.
